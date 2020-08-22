@@ -21,7 +21,6 @@ ADD COLUMN kod_t_st INTEGER ;
 ALTER TABLE TMP_ADDROB RENAME COLUMN  formalname TO name;
 ALTER TABLE TMP_ADDROB RENAME COLUMN  aoguid TO guid;
 ALTER TABLE TMP_ADDROB RENAME COLUMN  aoid TO id;
-ALTER TABLE TMP_ADDROB RENAME COLUMN  aolevel TO level;
 
 
 -- update empty values for TMP_ADDROB .nextid
@@ -97,11 +96,11 @@ UPDATE TMP_ADDROB  SET postalcode = NULL WHERE postalcode = '';
     alter table TMP_ADDROB  drop column actstatus_x;
 
 
--- cast column TMP_ADDROB .level to int
+-- cast column TMP_ADDROB .aolevel to int
 
-    alter table TMP_ADDROB  rename column level to aolevel_x;
-    alter table TMP_ADDROB  add column level int;
-    update TMP_ADDROB  set level = aolevel_x::int;
+    alter table TMP_ADDROB  rename column aolevel to aolevel_x;
+    alter table TMP_ADDROB  add column aolevel int;
+    update TMP_ADDROB  set aolevel = aolevel_x::int;
     alter table TMP_ADDROB  drop column aolevel_x;
 
 
@@ -131,4 +130,4 @@ UPDATE TMP_ADDROB  SET postalcode = NULL WHERE postalcode = '';
 select * from public addrobj 
 
 UPDATE TMP_ADDROB SET kod_t_st = socrbase.kod_t_st
-  FROM socrbase WHERE socrbase.scname = TMP_ADDROB.shortname AND socrbase.level = TMP_ADDROB.aolevel;
+  FROM socrbase WHERE socrbase.scname = TMP_ADDROB.shortname AND socrbase.aolevel = TMP_ADDROB.aolevel;
