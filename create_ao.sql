@@ -17,7 +17,6 @@ CREATE TABLE public.ao2
     code character varying(17) COLLATE pg_catalog."default",
     livestatus integer,
     statstatus integer,
-    currstatus integer,
     operstatus integer,
     divtype integer,
     startdate date,
