@@ -17,7 +17,7 @@ do
     psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
     DROP TABLE IF EXISTS TMP_$TBL_TO_LOAD; 
     ALTER TABLE $TABLE RENAME TO TMP_$TBL_TO_LOAD;"
-    
+    psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/init_${TBL_TO_LOAD,,}.sql   
     echo "++++++++++++++++++ TEMP TABLE $TABLE LOADED"
 
     if [[ "$first_loop_flag" = true ]]; then
@@ -25,7 +25,7 @@ do
       echo "++++++++++++++++++ TARGET TABLE $TBL_TO_LOAD CREATED"
       first_loop_flag=false
     fi
-    psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/init_${TBL_TO_LOAD,,}.sql
+
     echo "++++++++++++++++++ INSERT $TABLE DATA INTO $TBL_TO_LOAD"
 
     if [[ "$TABLE" != "$TBL_TO_LOAD" ]]; then
