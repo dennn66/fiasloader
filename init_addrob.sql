@@ -127,7 +127,5 @@ UPDATE TMP_ADDROB  SET postalcode = NULL WHERE postalcode = '';
     update TMP_ADDROB  set operstatus = operstatus_x::int;
     alter table TMP_ADDROB  drop column operstatus_x;
 
-select * from public addrobj 
-
 UPDATE TMP_ADDROB SET kod_t_st = socrbase.kod_t_st
   FROM socrbase WHERE socrbase.scname = TMP_ADDROB.shortname AND socrbase.aolevel = TMP_ADDROB.aolevel;
