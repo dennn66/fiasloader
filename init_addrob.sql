@@ -16,6 +16,7 @@ DROP COLUMN  ctarcode ,
 DROP COLUMN  extrcode,
 DROP COLUMN  sextcode,
 DROP COLUMN  plancode,
+DROP COLUMN  currstatus,
 ADD COLUMN kod_t_st INTEGER ;
 
 ALTER TABLE TMP_ADDROB RENAME COLUMN  formalname TO name;
@@ -102,14 +103,6 @@ UPDATE TMP_ADDROB  SET postalcode = NULL WHERE postalcode = '';
     alter table TMP_ADDROB  add column level int;
     update TMP_ADDROB  set level = level_x::int;
     alter table TMP_ADDROB  drop column level_x;
-
-
--- cast column TMP_ADDROB .currstatus to int
-
-    alter table TMP_ADDROB  rename column currstatus to currstatus_x;
-    alter table TMP_ADDROB  add column currstatus int;
-    update TMP_ADDROB  set currstatus = currstatus_x::int;
-    alter table TMP_ADDROB  drop column currstatus_x;
 
 
 -- cast column TMP_ADDROB .livestatus to int

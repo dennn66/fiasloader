@@ -21,7 +21,7 @@ do
     echo "++++++++++++++++++ TEMP TABLE $TABLE LOADED"
 
     if [[ "$first_loop_flag" = true ]]; then
-      psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "CREATE TABLE IF NOT EXISTS $TBL_TO_LOAD  AS SELECT * FROM TMP_$TBL_TO_LOAD WHERE 0 = 1;"
+      psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "CREATE TABLE IF NOT EXISTS ${TBL_TO_LOAD}2  AS SELECT * FROM TMP_$TBL_TO_LOAD WHERE 0 = 1;"
       echo "++++++++++++++++++ TARGET TABLE $TBL_TO_LOAD CREATED"
       first_loop_flag=false
     fi
