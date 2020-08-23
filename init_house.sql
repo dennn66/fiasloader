@@ -8,7 +8,7 @@ DROP COLUMN  oktmo,
 DROP COLUMN  terrifnsfl,
 DROP COLUMN  terrifnsul,
 DROP COLUMN  normdoc,
-ADD COLUMN regioncode INTEGER,
+ADD COLUMN regioncode INTEGER
 ;
 ALTER TABLE TMP_HOUSE RENAME COLUMN  houseid TO id;
 ALTER TABLE TMP_HOUSE RENAME COLUMN  aoguid TO parentguid;
