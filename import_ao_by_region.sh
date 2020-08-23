@@ -28,17 +28,9 @@ do
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
                 UPDATE $TMP_TABLE SET regioncode = $REGION;"
         fi
-        echo "++++++++++++++++++ DROP DUPLICATES AND CREATE PK FOR $TABLE"
-        psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
-            DELETE FROM
-                $TMP_TABLE a
-                    USING $TMP_TABLE b
-            WHERE
-                a.ctid < b.ctid
-                AND a.id = b.id;
-            ALTER TABLE $TMP_TABLE ADD PRIMARY KEY (id);"
         if [[ "$first_loop_flag" = true ]]; then
-          psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "CREATE TABLE IF NOT EXISTS $TBL_TO_LOAD  AS SELECT * FROM TMP_$TBL_TO_LOAD WHERE 0 = 1;"
+          psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "CREATE TABLE IF NOT EXISTS $TBL_TO_LOAD  AS SELECT * FROM TMP_$TBL_TO_LOAD WHERE 0 = 1;
+          ALTER TABLE $TMP_TABLE ADD PRIMARY KEY (id);"
           echo "++++++++++++++++++ TARGET TABLE $TBL_TO_LOAD CREATED"
           first_loop_flag=false
         fi
@@ -48,7 +40,7 @@ do
         if [[ "$TABLE" != "$TBL_TO_LOAD" ]]; then
             echo "++++++++++++++++++ DROP TABLE $TABLE"
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
-                INSERT INTO $TBL_TO_LOAD SELECT * FROM TMP_$TBL_TO_LOAD;
+                INSERT INTO $TBL_TO_LOAD SELECT * FROM TMP_$TBL_TO_LOAD ON CONFLICT (id) DO NOTHING;
                 DROP TABLE IF EXISTS TMP_AO;
                 CREATE TABLE TMP_AO  AS SELECT * FROM public.AO WHERE 0 = 1;"
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/clean_${TBL_TO_LOAD,,}.sql

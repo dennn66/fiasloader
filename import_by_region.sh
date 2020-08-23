@@ -2,8 +2,9 @@
 
 echo "++++++++++++++++++ HELLO, DB = $POSTGRES_DB"
 
-TBLS_TO_LOAD=${1:-"ADDROB STEAD HOUSE"}
-REGIONS_TO_LOAD=${2:-"06 99"}
+REGIONS_TO_LOAD=${1:-"06 99"}
+TBLS_TO_LOAD=${2:-"ADDROB STEAD HOUSE"}
+
 
 echo "++++++++++++++++++ LOADING TABLE = $TBL_TO_LOAD"
 
