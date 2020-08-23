@@ -19,15 +19,25 @@ do
 
         pgdbf $FULLPATH | iconv -f cp866 -t utf-8 | psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB
         psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
-            DROP TABLE IF EXISTS TMP_$TBL_TO_LOAD; 
-            ALTER TABLE $TABLE RENAME TO $TMP_TABLE;"
+            DROP TABLE IF EXISTS $TMP_TABLE; 
+            ALTER TABLE $TABLE RENAME TO $TMP_TABLE;
+            ALTER TABLE $TMP_TABLE ADD PRIMARY KEY (product_no);"
         psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/init_${TBL_TO_LOAD,,}.sql   
+        
         if [[ "$TBL_TO_LOAD" = "HOUSE" ]]; then
             echo "++++++++++++++++++ UPDATING REGION $REGION FOR $TABLE"
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
                 UPDATE $TMP_TABLE SET regioncode = $REGION;"
         fi
-
+        echo "++++++++++++++++++ DROP DUPLICATES AND CREATE PK FOR $TABLE"
+        psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
+            DELETE FROM
+                $TMP_TABLE a
+                    USING $TMP_TABLE b
+            WHERE
+                a.ctid < b.ctid
+                AND a.id = b.id;
+            ALTER TABLE $TMP_TABLE ADD PRIMARY KEY (id);"
         if [[ "$first_loop_flag" = true ]]; then
           psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "CREATE TABLE IF NOT EXISTS $TBL_TO_LOAD  AS SELECT * FROM TMP_$TBL_TO_LOAD WHERE 0 = 1;"
           echo "++++++++++++++++++ TARGET TABLE $TBL_TO_LOAD CREATED"
