@@ -1,6 +1,6 @@
 -- DROP TABLE public.ao;
 
-CREATE TABLE public.ao
+CREATE TABLE IF NOT EXISTS public.ao
 (
     guid uuid NOT NULL,
     parentguid uuid,

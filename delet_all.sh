@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+echo "++++++++++++++++++ HELLO, DB = $POSTGRES_DB"
+
+           
+
+TBLS_TO_DELETE=${1:-"ADDROB STEAD HOUSE SOCRBASE ESTSTAT STRSTAT OPERSTAT AO TMP_AO TMP_ADDROB TMP_STEAD TMP_HOUSE"}
+
+
+echo "++++++++++++++++++ DELETING TABLES = $TBLS_TO_DELETE"
+for TBL_TO_DELETE in $TBLS_TO_DELETE
+do
+    psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
+            DROP TABLE IF EXISTS $TBL_TO_DELETE;"
+done
+
+
+
+
+
