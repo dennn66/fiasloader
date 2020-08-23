@@ -40,11 +40,11 @@ do
             echo "++++++++++++++++++ DROP TABLE $TABLE"
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
                 INSERT INTO $TBL_TO_LOAD SELECT * FROM TMP_$TBL_TO_LOAD;
+                DROP TABLE TMP_AO;
                 CREATE TABLE TMP_AO  AS SELECT * FROM public.AO WHERE 0 = 1;"
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/clean_${TBL_TO_LOAD,,}.sql
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
-                INSERT INTO AO (guid, parentguid, regioncode, postalcode, name, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, code, livestatus, statstatus, operstatus, divtype, startdate, updatedate, enddate) SELECT guid, parentguid, regioncode, postalcode, name, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, code, livestatus, statstatus, operstatus, divtype, startdate, updatedate, enddate FROM TMP_AO ON CONFLICT (guid) DO UPDATE
-                SET 
+                INSERT INTO AO SELECT * FROM TMP_AO ON CONFLICT (guid) DO UPDATE SET 
                 parentguid = excluded.parentguid, 
                 regioncode = excluded.regioncode, 
                 postalcode = excluded.postalcode, 
@@ -63,8 +63,7 @@ do
                 divtype = excluded.divtype, 
                 startdate = excluded.startdate, 
                 updatedate = excluded.updatedate, 
-                enddate = excluded.enddate;
-                DROP TABLE TMP_$TBL_TO_LOAD;"
+                enddate = excluded.enddate;"
         fi
     done
 done
