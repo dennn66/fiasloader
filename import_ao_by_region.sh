@@ -40,7 +40,7 @@ do
             echo "++++++++++++++++++ DROP TABLE $TABLE"
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
                 INSERT INTO $TBL_TO_LOAD SELECT * FROM TMP_$TBL_TO_LOAD;
-                DROP TABLE TMP_AO;
+                DROP TABLE IF EXISTS TMP_AO;
                 CREATE TABLE TMP_AO  AS SELECT * FROM public.AO WHERE 0 = 1;"
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/clean_${TBL_TO_LOAD,,}.sql
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
