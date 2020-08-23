@@ -8,14 +8,11 @@ DROP COLUMN  oktmo,
 DROP COLUMN  terrifnsfl,
 DROP COLUMN  terrifnsul,
 DROP COLUMN  normdoc,
-ADD COLUMN kod_t_st INTEGER,
 ADD COLUMN regioncode INTEGER,
 ;
 ALTER TABLE TMP_HOUSE RENAME COLUMN  houseid TO id;
 ALTER TABLE TMP_HOUSE RENAME COLUMN  aoguid TO parentguid;
 ALTER TABLE TMP_HOUSE RENAME COLUMN  houseguid TO guid;
-
-COMMIT;
 
 --- update empty values for TMP_HOUSE .parentguid
 UPDATE TMP_HOUSE  SET parentguid = NULL WHERE parentguid = '';
@@ -48,9 +45,7 @@ UPDATE TMP_HOUSE  SET postalcode = NULL WHERE postalcode = '';
     alter table TMP_HOUSE  drop column parentguid_x;
 
 
--- strstatus | eststatus
-UPDATE TMP_HOUSE SET kod_t_st = eststat.kod_t_st FROM eststat WHERE eststat.eststatid = TMP_HOUSE.eststatus;
-UPDATE TMP_HOUSE SET kod_t_st = strstat.kod_t_st FROM strstat WHERE strstat.strstatid = TMP_HOUSE.strstatus and TMP_HOUSE.eststatus=0;
+
 
 
 

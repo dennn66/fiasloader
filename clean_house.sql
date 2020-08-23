@@ -1,8 +1,8 @@
 INSERT INTO public.TMP_AO(
 	guid, parentguid, regioncode, postalcode, name, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, code, livestatus, statstatus, operstatus, divtype, startdate, updatedate, enddate) SELECT 
-    guid, parentguid, regioncode, postalcode, null, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, null,       null, statstatus,       null, divtype, startdate, updatedate, enddate FROM  public.TMP_HOUSE;
+    guid, parentguid, regioncode, postalcode, null,     null, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, null,       null, statstatus,       null, divtype, startdate, updatedate, enddate FROM  public.TMP_HOUSE;
     
-CREATE  INDEX ao_guid_idx ON TMP_AO USING btree (guid);
+CREATE  INDEX tmp_ao_guid_idx ON TMP_AO USING btree (guid);
     
 DELETE FROM
     TMP_AO a
@@ -35,3 +35,7 @@ WHERE
 UPDATE TMP_AO SET livestatus = 0;
   
 UPDATE TMP_AO SET livestatus = 1 WHERE enddate = '2079-06-06';
+
+-- strstatus | eststatus
+UPDATE TMP_AO SET kod_t_st = eststat.kod_t_st FROM eststat WHERE eststat.eststatid = TMP_AO.eststatus;
+UPDATE TMP_AO SET kod_t_st = strstat.kod_t_st FROM strstat WHERE strstat.strstatid = TMP_AO.strstatus and TMP_AO.eststatus=0;
