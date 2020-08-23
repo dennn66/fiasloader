@@ -31,6 +31,8 @@ UPDATE TMP_STEAD  SET nextid = NULL WHERE nextid = '';
 --- update empty values for TMP_STEAD .postalcode
 UPDATE TMP_STEAD  SET postalcode = NULL WHERE postalcode = '';
 
+UPDATE TMP_STEAD  SET kod_t_st = 7501 ;
+
 -- cast column TMP_STEAD .guid to uuid
     alter table TMP_STEAD  rename column guid to aoguid_x;
     alter table TMP_STEAD  add column guid uuid;
@@ -79,12 +81,11 @@ UPDATE TMP_STEAD  SET postalcode = NULL WHERE postalcode = '';
     update TMP_STEAD  set livestatus = livestatus_x::int;
     alter table TMP_STEAD  drop column livestatus_x;
 
-
 -- cast column TMP_STEAD .operstatus to int
     alter table TMP_STEAD  rename column operstatus to operstatus_x;
     alter table TMP_STEAD  add column operstatus int;
     update TMP_STEAD  set operstatus = operstatus_x::int;
     alter table TMP_STEAD  drop column operstatus_x;
 
-UPDATE TMP_STEAD  SET kod_t_st = 7501 ;
+
 
