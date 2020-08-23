@@ -1,7 +1,8 @@
 INSERT INTO public.TMP_AO(
 	guid, parentguid, regioncode, postalcode, name, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, code, livestatus, statstatus, operstatus, divtype, startdate, updatedate, enddate) SELECT 
     guid, parentguid, regioncode, postalcode, null,     null, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, null,       null, statstatus,       null, divtype, startdate, updatedate, enddate FROM  public.TMP_HOUSE;
-    
+
+DROP  INDEX IF EXISTS tmp_ao_guid_idx;    
 CREATE  INDEX tmp_ao_guid_idx ON TMP_AO USING btree (guid);
     
 DELETE FROM
