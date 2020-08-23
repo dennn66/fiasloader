@@ -10,7 +10,7 @@ echo "++++++++++++++++++ LOADING TABLES = $TBLS_TO_LOAD FOR REGIONS $REGIONS_TO_
 
 for TBL_TO_LOAD in $TBLS_TO_LOAD
 do
-    ./$(dirname $0)/import_ao_by_region.sh $REGIONS_TO_LOAD $TBL_TO_LOAD
+    ./$(dirname $0)/import_ao_by_region.sh  "$TBL_TO_LOAD" "$REGIONS_TO_LOAD"
 done
 
 

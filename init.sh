@@ -9,8 +9,8 @@ DICTS_TO_LOAD=${3:-"SOCRBASE ESTSTAT STRSTAT OPERSTAT"}
 
 
 ./create_ao.sh
-./import_dict.sh $DICTS_TO_LOAD
-./import_by_region.sh $TBLS_TO_LOAD $REGIONS_TO_LOAD
+./import_dict.sh "$DICTS_TO_LOAD"
+./import_by_region.sh "$REGIONS_TO_LOAD" "$TBLS_TO_LOAD"
 
 
 
