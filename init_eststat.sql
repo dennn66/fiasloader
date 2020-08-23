@@ -9,7 +9,7 @@ BEGIN;
 COMMIT;
 
 ALTER TABLE eststat ADD COLUMN kod_t_st INTEGER;
-CREATE TABLE est2socr (
+CREATE TABLE IF NOT EXISTS est2socr (
     eststatid        integer CONSTRAINT firstkey PRIMARY KEY,
      kod_t_st       integer
 );
@@ -26,7 +26,8 @@ VALUES
 (7, 906),
 (8, 807),
 (9, 905),
-(10, 808);
+(10, 808)
+ON CONFLICT (eststatid) DO NOTHING;
 
 
 UPDATE eststat SET kod_t_st = est2socr.kod_t_st

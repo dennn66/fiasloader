@@ -10,7 +10,7 @@ COMMIT;
 
 ALTER TABLE strstat ADD COLUMN kod_t_st INTEGER;
 
-CREATE TABLE str2socr (
+CREATE TABLE IF NOT EXISTS str2socr (
     strstatid        integer CONSTRAINT str_firstkey PRIMARY KEY,
      kod_t_st       integer
 );
@@ -20,7 +20,8 @@ VALUES
 (0, null),
 (1, 811),
 (2, 810),
-(3, 803);
+(3, 803)
+ON CONFLICT (strstatid) DO NOTHING;
 
 
 UPDATE strstat SET kod_t_st = str2socr.kod_t_st
