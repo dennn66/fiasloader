@@ -40,3 +40,6 @@ UPDATE TMP_AO SET livestatus = 1 WHERE enddate = '2079-06-06';
 -- strstatus | eststatus
 UPDATE TMP_AO SET kod_t_st = eststat.kod_t_st FROM eststat WHERE eststat.eststatid = TMP_AO.eststatus;
 UPDATE TMP_AO SET kod_t_st = strstat.kod_t_st FROM strstat WHERE strstat.strstatid = TMP_AO.strstatus and TMP_AO.eststatus=0;
+
+UPDATE TMP_AO SET name = es.shortname || ' ' || h.housenum || ' ' || h.buildnum || ' ' || h.strucnum from TMP_AO AS h, strstat AS ss, eststat AS es 
+WHERE h.eststatus = es.eststatid AND h.strstatus = ss.strstatid 
