@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-echo "++++++++++++++++++ HELLO, DB = $POSTGRES_DB"
+echo "++++++++++++++++++ IMPORT BY REGION, DB = $POSTGRES_DB"
 
 REGIONS_TO_LOAD=${1:-"1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62 63 64 65 66 67 68 69 70 71 72 73 74 75 76 77 78 79 83 86 87 89 91 92 99"}
 TBLS_TO_LOAD=${2:-"ADDROB STEAD HOUSE"}
@@ -10,7 +10,7 @@ echo "++++++++++++++++++ LOADING TABLES = $TBLS_TO_LOAD FOR REGIONS $REGIONS_TO_
 
 for TBL_TO_LOAD in $TBLS_TO_LOAD
 do
-    ./$(dirname $0)/import_ao_by_region.sh $TBL_TO_LOAD $REGIONS_TO_LOAD
+    ./$(dirname $0)/import_ao_by_region.sh $REGIONS_TO_LOAD $TBL_TO_LOAD
 done
 
 
