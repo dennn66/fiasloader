@@ -43,14 +43,8 @@ do
                 CREATE TABLE TMP_AO  AS SELECT * FROM public.AO WHERE 0 = 1;"
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/clean_${TBL_TO_LOAD,,}.sql
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
-                INSERT INTO AO () SELECT * FROM TMP_AO ON CONFLICT (guid) DO NOTHING;
-                
-                INSERT INTO b (pk_b, b, comment) 
-SELECT pk_a, a, comment
-FROM   a 
-ON     CONFLICT (pk_b) DO UPDATE  -- conflict is on the unique column
-SET    b = excluded.b;  
-                
+                INSERT INTO AO (guid, parentguid, regioncode, postalcode, name, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, code, livestatus, statstatus, operstatus, divtype, startdate, updatedate, enddate) SELECT guid, parentguid, regioncode, postalcode, name, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, code, livestatus, statstatus, operstatus, divtype, startdate, updatedate, enddate FROM TMP_AO ON CONFLICT (guid) DO UPDATE
+                SET AO = excluded.AO;
                 DROP TABLE TMP_$TBL_TO_LOAD;"
         fi
     done
