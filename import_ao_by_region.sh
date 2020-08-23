@@ -4,13 +4,13 @@ echo "++++++++++++++++++ HELLO, DB = $POSTGRES_DB"
 
 TBL_TO_LOAD=$1
 TMP_TABLE=TMP_$TBL_TO_LOAD
-REGION_TO_LOAD=${2:-"06 99"}
+REGIONS_TO_LOAD=${2:-"06 99"}
 
 echo "++++++++++++++++++ LOADING TABLE = $TBL_TO_LOAD"
 
 first_loop_flag=true
 
-for REGION in $REGION_TO_LOAD
+for REGION in $REGIONS_TO_LOAD
 do
     for FULLPATH in `find $PATH_TO_DBF_FILES/$TBL_TO_LOAD$REGION* -type f`
     do
@@ -44,7 +44,26 @@ do
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/clean_${TBL_TO_LOAD,,}.sql
             psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
                 INSERT INTO AO (guid, parentguid, regioncode, postalcode, name, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, code, livestatus, statstatus, operstatus, divtype, startdate, updatedate, enddate) SELECT guid, parentguid, regioncode, postalcode, name, kod_t_st, housenum, eststatus, buildnum, strucnum, strstatus, cadnum, code, livestatus, statstatus, operstatus, divtype, startdate, updatedate, enddate FROM TMP_AO ON CONFLICT (guid) DO UPDATE
-                SET AO = excluded.AO;
+                SET 
+                parentguid = excluded.parentguid, 
+                regioncode = excluded.regioncode, 
+                postalcode = excluded.postalcode, 
+                name = excluded.name, 
+                kod_t_st = excluded.kod_t_st, 
+                housenum = excluded.housenum, 
+                eststatus = excluded.eststatus, 
+                buildnum = excluded.buildnum, 
+                strucnum = excluded.strucnum, 
+                strstatus = excluded.strstatus, 
+                cadnum = excluded.cadnum, 
+                code = excluded.code, 
+                livestatus = excluded.livestatus, 
+                statstatus = excluded.statstatus, 
+                operstatus = excluded.operstatus, 
+                divtype = excluded.divtype, 
+                startdate = excluded.startdate, 
+                updatedate = excluded.updatedate, 
+                enddate = excluded.enddate;
                 DROP TABLE TMP_$TBL_TO_LOAD;"
         fi
     done
