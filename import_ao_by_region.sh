@@ -20,8 +20,7 @@ do
         pgdbf $FULLPATH | iconv -f cp866 -t utf-8 | psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB
         psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -c "
             DROP TABLE IF EXISTS $TMP_TABLE; 
-            ALTER TABLE $TABLE RENAME TO $TMP_TABLE;
-            ALTER TABLE $TMP_TABLE ADD PRIMARY KEY (product_no);"
+            ALTER TABLE $TABLE RENAME TO $TMP_TABLE;"
         psql postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DB -f ./$(dirname $0)/init_${TBL_TO_LOAD,,}.sql   
         
         if [[ "$TBL_TO_LOAD" = "HOUSE" ]]; then
