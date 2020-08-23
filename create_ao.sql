@@ -1,10 +1,10 @@
--- DROP TABLE public.ao2;
+-- DROP TABLE public.ao;
 
-CREATE TABLE public.ao2
+CREATE TABLE public.ao
 (
     guid uuid NOT NULL,
     parentguid uuid,
-    regioncode character varying(2) COLLATE pg_catalog."default",
+    regioncode integer,
     postalcode character varying(6) COLLATE pg_catalog."default",
     name character varying(120) COLLATE pg_catalog."default",
     kod_t_st integer,
@@ -22,12 +22,12 @@ CREATE TABLE public.ao2
     startdate date,
     updatedate date,
     enddate date,
-    CONSTRAINT ao2_pkey PRIMARY KEY (guid)
+    CONSTRAINT ao_pkey PRIMARY KEY (guid)
 )
 WITH (
     OIDS = FALSE
 )
 TABLESPACE pg_default;
 
-ALTER TABLE public.ao2
+ALTER TABLE public.ao
     OWNER to admin;
