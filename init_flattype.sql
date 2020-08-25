@@ -10,7 +10,7 @@ COMMIT;
 
 ALTER TABLE flattype ADD COLUMN kod_t_st INTEGER;
 CREATE TABLE IF NOT EXISTS flat2socr (
-    fltypeid        integer CONSTRAINT firstkey PRIMARY KEY,
+    fltypeid        integer CONSTRAINT fltypeid_pk PRIMARY KEY,
      kod_t_st       integer
 );
 

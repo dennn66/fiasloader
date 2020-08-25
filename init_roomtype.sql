@@ -10,7 +10,7 @@ COMMIT;
 
 ALTER TABLE roomtype ADD COLUMN kod_t_st INTEGER;
 CREATE TABLE IF NOT EXISTS room2socr (
-    rmtypeid        integer CONSTRAINT firstkey PRIMARY KEY,
+    rmtypeid        integer CONSTRAINT rmtypeid_pk PRIMARY KEY,
      kod_t_st       integer
 );
 
