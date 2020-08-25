@@ -6,5 +6,5 @@ INSERT INTO public.TMP_AO(
 UPDATE TMP_AO SET kod_t_st = flattype.kod_t_st FROM flattype WHERE flattype.fltypeid = TMP_AO.eststatus;
 UPDATE TMP_AO SET kod_t_st = roomtype.kod_t_st FROM roomtype WHERE roomtype.rmtypeid = TMP_AO.strstatus and TMP_AO.eststatus=0;
 
-UPDATE TMP_AO SET name = ft.shortname || ' ' || r.flatnumber|| ' ' || r.roomnumber from TMP_AO AS r, roomtype AS rt, flattype AS ft 
-WHERE r.eststatus::int = ft.fltypeid AND r.strstatus::int = rt.rmtypeid 
+UPDATE TMP_AO SET name = ft.shortname || ' ' || r.housenum|| ' ' || r.strucnum from TMP_AO AS r, roomtype AS rt, flattype AS ft 
+WHERE r.eststatus = ft.fltypeid AND r.strstatus = rt.rmtypeid 
