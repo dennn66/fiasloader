@@ -112,11 +112,11 @@
     -- вывести полный адрес
     WITH RECURSIVE child_to_parents AS (
     SELECT ao.* FROM ao
-        WHERE guid = '0c5b2444-70a0-4932-980c-b4dc0d3f02b5'
+        WHERE guid = '0000001e-3e98-4281-9150-4965cef089b0'::uuid
     UNION ALL
     SELECT ao.* FROM ao, child_to_parents
         WHERE ao.guid = child_to_parents.parentguid
-    )
+    ) SELECT * FROM child_to_parents ORDER BY kod_t_st
 
 ```
 
